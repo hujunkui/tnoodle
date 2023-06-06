@@ -7,7 +7,7 @@ import org.yaml.snakeyaml.constructor.Constructor
 import java.util.Locale
 
 object Translate {
-    private val BASE_LOCALE = Locale.forLanguageTag("en")
+    private val BASE_LOCALE = Locale.forLanguageTag("zh-CN")
     val DEFAULT_LOCALE = System.getenv("TNOODLE_DEFAULT_LOCALE")
         ?.let { Locale.forLanguageTag(it) } ?: BASE_LOCALE
 

@@ -114,7 +114,6 @@ const Main = () => {
             !officialZipStatus || (competitionId != null && isUsingStaging());
 
         let fileName =
-            (isUnofficialZip ? "[UNOFFICIAL] " : "") +
             competitionNameFileZip +
             ".zip";
 
@@ -139,14 +138,14 @@ const Main = () => {
                     title="Wait until the process is done"
                     disabled
                 >
-                    Generating Scrambles
+                    生成打乱
                 </button>
             );
         }
         if (!!fileZip) {
             return (
                 <button type="submit" className="btn btn-success form-control">
-                    Download Scrambles
+                    下载打乱
                 </button>
             );
         }
@@ -167,7 +166,7 @@ const Main = () => {
                 disabled={disableScrambleButton}
                 title={disableScrambleButton ? "No events selected." : ""}
             >
-                Generate Scrambles
+                生成打乱
             </button>
         );
     };
@@ -176,7 +175,7 @@ const Main = () => {
         <form onSubmit={onSubmit}>
             <div className="sticky-top bg-light">
                 <Interceptor ref={interceptorRef} />
-                <VersionInfo />
+                {/*<VersionInfo />*/}
                 <div className="container-fluid pt-2">
                     <div className="row">
                         <EntryInterface />

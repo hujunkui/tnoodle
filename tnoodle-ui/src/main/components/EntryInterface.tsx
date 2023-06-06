@@ -41,12 +41,12 @@ const EntryInterface = () => {
         <>
             <div className="col-sm-4 text-left form-group">
                 <label className="font-weight-bold" htmlFor="competition-name">
-                    Competition Name
+                    比赛名称
                 </label>
                 <input
                     id="competition-name"
                     className="form-control"
-                    placeholder="Competition Name"
+                    placeholder="比赛名称"
                     onChange={(e) =>
                         handleCompetitionNameChange(e.target.value)
                     }
@@ -58,13 +58,13 @@ const EntryInterface = () => {
 
             <div className="col-sm-4 text-left form-group">
                 <label className="font-weight-bold" htmlFor="password">
-                    Password
+                    密码
                 </label>
                 <div className="input-group">
                     <input
                         id="password"
                         className="form-control"
-                        placeholder="Password"
+                        placeholder="密码"
                         type={showPassword ? "" : "password"}
                         onChange={(e) => handlePasswordChange(e.target.value)}
                         value={password}

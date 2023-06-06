@@ -16,7 +16,7 @@ import java.util.*
 object WCIFDataBuilder {
     const val WATERMARK_STAGING = "STAGING"
     const val WATERMARK_OUTDATED = "OUTDATED"
-    const val WATERMARK_UNOFFICIAL = "UNOFFICIAL"
+    const val WATERMARK_UNOFFICIAL = ""
     const val WATERMARK_MANUAL = "MANUAL"
 
     fun Competition.toDocuments(

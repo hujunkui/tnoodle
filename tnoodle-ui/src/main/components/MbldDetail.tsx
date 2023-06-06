@@ -24,7 +24,7 @@ const MbldDetail = () => {
         <tfoot>
             <tr>
                 <th colSpan={3}>
-                    <p className="text-right">Select the number of scrambles</p>
+                    <p className="text-right">请选择打乱个数</p>
                 </th>
                 <td>
                     <input

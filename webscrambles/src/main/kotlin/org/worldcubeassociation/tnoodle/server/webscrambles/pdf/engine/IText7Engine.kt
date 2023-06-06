@@ -53,7 +53,7 @@ object IText7Engine {
         val itextDocument = com.itextpdf.layout.Document(pdfDocument)
 
         val fontIndex = doc.exposeFontNames()
-            .associateWith { PdfFontFactory.createFont("fonts/$it.ttf", PdfEncodings.IDENTITY_H, pdfDocument) }
+            .associateWith { PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H, pdfDocument) }
 
         pdfDocument.documentInfo.addCreationDate()
         pdfDocument.documentInfo.producer = CREATOR_STRING
@@ -73,7 +73,7 @@ object IText7Engine {
             val addedPage = pdfDocument.addNewPage()
 
             if (doc.watermark != null) {
-                val monoFont = PdfFontFactory.createFont("fonts/${Font.MONO}.ttf", PdfEncodings.IDENTITY_H, pdfDocument)
+                val monoFont = PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H, pdfDocument)
                 addedPage.addWatermark(doc.watermark, monoFont, n + 1)
             }
 
@@ -140,6 +140,7 @@ object IText7Engine {
         val over = PdfCanvas(newContentStreamBefore(), resources, document)
 
         Canvas(over, pageSize)
+            .setFont(PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H))
             .showTextAligned(
                 text,
                 horizontalPos,
@@ -331,7 +332,6 @@ object IText7Engine {
         val itextParagraph = com.itextpdf.layout.element.Paragraph()
         val minFontSize = paragraph.lines.minOf { it.fontSize }
         itextParagraph.setMultipliedLeading(hackLeading(minFontSize, paragraph.leading))
-
         for (line in paragraph.lines) {
             val renderedLine = renderText(line, fontIndex)
 
@@ -341,6 +341,10 @@ object IText7Engine {
 
         return itextParagraph
     }
+    fun containsChinese(text: String): Boolean {
+        val regex = Regex("[\\u4E00-\\u9FA5]+")
+        return regex.containsMatchIn(text)
+    }
 
     private fun renderText(text: Text, fontIndex: Map<String, PdfFont>): com.itextpdf.layout.element.Text {
         val itextText = com.itextpdf.layout.element.Text(text.content)
@@ -349,6 +353,9 @@ object IText7Engine {
 
         fontIndex[text.fontName]?.let { itextText.setFont(it) }
 
+        if (containsChinese(text.content)) {
+            itextText.setFont(PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H))
+        }
         itextText.setFontSize(text.fontSize)
         itextText.setFontStyle(text.fontWeight)
 
