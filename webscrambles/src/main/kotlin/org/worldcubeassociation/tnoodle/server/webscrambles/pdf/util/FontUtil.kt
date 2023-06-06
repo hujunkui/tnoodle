@@ -22,7 +22,7 @@ object FontUtil {
 
     private fun computeFontWidthScale(text: String, relativeWidth: Float, fontName: String): Float {
         val font = FONT_PROGRAM_CACHE.getOrPut(fontName) {
-            PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H)
+            PdfFontFactory.createFont("fonts/$fontName.ttf", PdfEncodings.IDENTITY_H)
         }
 
         val textWidth = font.getWidth(text) / FontProgram.UNITS_NORMALIZATION.toFloat()
@@ -33,7 +33,7 @@ object FontUtil {
 
     private fun computeFontHeightScale(fontName: String): Float {
         val font = FONT_PROGRAM_CACHE.getOrPut(fontName) {
-            PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H)
+            PdfFontFactory.createFont("fonts/$fontName.ttf", PdfEncodings.IDENTITY_H)
         }
 
         val (asc, desc) = TextRenderer.calculateAscenderDescender(font)

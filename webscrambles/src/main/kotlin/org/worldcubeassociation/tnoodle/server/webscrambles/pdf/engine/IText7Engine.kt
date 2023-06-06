@@ -1,16 +1,19 @@
 package org.worldcubeassociation.tnoodle.server.webscrambles.pdf.engine
 
 import com.itextpdf.io.font.PdfEncodings
+import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.Color
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.geom.PageSize
+import com.itextpdf.kernel.geom.Rectangle
 import com.itextpdf.kernel.pdf.*
 import com.itextpdf.kernel.pdf.action.PdfAction
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas
 import com.itextpdf.kernel.pdf.extgstate.PdfExtGState
 import com.itextpdf.kernel.pdf.navigation.PdfExplicitDestination
+import com.itextpdf.kernel.pdf.xobject.PdfImageXObject
 import com.itextpdf.kernel.utils.PdfMerger
 import com.itextpdf.layout.Canvas
 import com.itextpdf.layout.borders.Border
@@ -53,7 +56,7 @@ object IText7Engine {
         val itextDocument = com.itextpdf.layout.Document(pdfDocument)
 
         val fontIndex = doc.exposeFontNames()
-            .associateWith { PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H, pdfDocument) }
+            .associateWith { PdfFontFactory.createFont("fonts/$it.ttf", PdfEncodings.IDENTITY_H, pdfDocument) }
 
         pdfDocument.documentInfo.addCreationDate()
         pdfDocument.documentInfo.producer = CREATOR_STRING
@@ -73,8 +76,9 @@ object IText7Engine {
             val addedPage = pdfDocument.addNewPage()
 
             if (doc.watermark != null) {
-                val monoFont = PdfFontFactory.createFont("fonts/msyh.ttc,0", PdfEncodings.IDENTITY_H, pdfDocument)
+                val monoFont = PdfFontFactory.createFont("fonts/${Font.MONO}.ttf", PdfEncodings.IDENTITY_H, pdfDocument)
                 addedPage.addWatermark(doc.watermark, monoFont, n + 1)
+                addImageWatermarkToPage(addedPage,"hcucu.png")
             }
 
             val headerHeight = 3 * page.marginTop.toFloat() / 4
@@ -118,7 +122,16 @@ object IText7Engine {
 
         return baos.toByteArray()
     }
-
+    fun addImageWatermarkToPage(page: PdfPage, imagePath: String) {
+        val pageSize = page.pageSize
+        val canvas = PdfCanvas(page)
+        val image = Image(ImageDataFactory.create(imagePath))
+        image.setOpacity(0.5f)
+        val rect = Rectangle(pageSize)
+        val canvasWatermark = Canvas(canvas, rect)
+        canvasWatermark.add(image)
+        canvasWatermark.close()
+    }
     private fun PdfPage.showHeaderLeft(text: String, pageSize: PageSize, headerHeight: Float, marginLeft: Float) {
         writeTextOutOfBounds(text, 2 * marginLeft, pageSize.height - headerHeight)
     }

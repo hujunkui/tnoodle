@@ -237,7 +237,7 @@ class GeneralScrambleSheet(
         const val SCRAMBLE_TEXT_LEADING = 0.95f
 
         const val TABLE_HEADING_EXTRA_SCRAMBLES = "备用打乱" // TODO i18n
-        const val EXTRA_SCRAMBLE_PREFIX = "E"
+        const val EXTRA_SCRAMBLE_PREFIX = "备用"
 
         const val EXTRA_SCRAMBLE_LABEL_SIZE = Font.Size.DEFAULT
 
