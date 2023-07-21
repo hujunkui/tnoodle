@@ -29,24 +29,24 @@ data class PrintingFolder(
     fun assemble(pdfPassword: String?): Folder {
         val fmcRequests = uniqueTitles.filterValues { it is FewestMovesSheet }
 
-        return folder("Printing") {
-            folder("Scramble Sets") {
+        return folder("打印") {
+            folder("按打乱") {
                 for ((uniq, sheet) in uniqueTitles) {
                     file("$uniq.pdf", sheet.render(pdfPassword))
                 }
             }
 
             if (fmcRequests.isNotEmpty()) {
-                folder("Fewest Moves - Additional Files") {
+                folder("最少步 - 附加文件") {
                     val defaultGenericPrintingSheet = FmcSolutionSheet.genericBlankSheet(Translate.DEFAULT_LOCALE, competitionName, watermark)
-                    file("3x3x3 Fewest Moves Solution Sheet.pdf", defaultGenericPrintingSheet.render())
+                    file("3x3x3 最少步答题卷.pdf", defaultGenericPrintingSheet.render())
 
                     if (fmcTranslations.isNotEmpty()) {
-                        folder("Translations") {
+                        folder("翻译") {
                             for (locale in fmcTranslations) {
                                 folder(locale.toLanguageTag()) {
                                     val translatedGenericPrintingSheet = FmcSolutionSheet.genericBlankSheet(locale, competitionName, watermark)
-                                    file("3x3x3 Fewest Moves Solution Sheet.pdf", translatedGenericPrintingSheet.render())
+                                    file("3x3x3 最少步答题卷.pdf", translatedGenericPrintingSheet.render())
                                 }
                             }
                         }
@@ -55,10 +55,10 @@ data class PrintingFolder(
                     for ((uniq, sheet) in uniqueTitles) {
                         if (sheet is FewestMovesSheet) {
                             val defaultCutoutSheet = FmcCutoutSheet(sheet.scramble, sheet.totalAttemptsNum, sheet.scrambleSetId, competitionName, sheet.activityCode, sheet.hasGroupId, Translate.DEFAULT_LOCALE, sheet.watermark)
-                            file("$uniq - Scramble Cutout Sheet.pdf", defaultCutoutSheet.render(pdfPassword))
+                            file("$uniq - 裁剪版.pdf", defaultCutoutSheet.render(pdfPassword))
 
                             if (fmcTranslations.isNotEmpty()) {
-                                folder("Translations") {
+                                folder("翻译") {
                                     for (locale in fmcTranslations) {
                                         folder(locale.toLanguageTag()) {
                                             // fewest moves regular sheet
@@ -67,7 +67,7 @@ data class PrintingFolder(
 
                                             // scramble cutout sheet
                                             val localCutoutSheet = FmcCutoutSheet(sheet.scramble, sheet.totalAttemptsNum, sheet.scrambleSetId, competitionName, sheet.activityCode, sheet.hasGroupId, locale, sheet.watermark)
-                                            file("$uniq Scramble Cutout Sheet.pdf", localCutoutSheet.render(pdfPassword))
+                                            file("$uniq 裁剪版.pdf", localCutoutSheet.render(pdfPassword))
                                         }
                                     }
                                 }
@@ -108,7 +108,7 @@ data class PrintingFolder(
             val printingCompletePdf = WCIFDataBuilder.compileOutlinePdfBytes(scrambleSheetsWithCopies, pdfPassword)
 
             val safeGlobalTitle = competitionName.toFileSafeString()
-            file("$safeGlobalTitle - All Scrambles.pdf", printingCompletePdf)
+            file("$safeGlobalTitle - 所有打乱.pdf", printingCompletePdf)
         }
     }
 

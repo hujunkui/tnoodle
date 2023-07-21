@@ -82,7 +82,7 @@ data class ActivityCode(val activityCodeString: String) : EventIdProvider {
 
             if (prefix == WCIF_PREFIX_GROUP) {
                 val convertedLetter = value.toIntOrNull()?.toColumnIndexString()
-                return "Scramble Set $convertedLetter" // TODO proper i18n via fmc.scrambleSet
+                return "打乱 $convertedLetter" // TODO proper i18n via fmc.scrambleSet
             }
 
             val translatedKey = Translate("fmc.$prefixKey", locale)

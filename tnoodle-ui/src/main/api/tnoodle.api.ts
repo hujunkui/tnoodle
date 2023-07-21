@@ -9,7 +9,7 @@ import { ScrambleClient } from "./tnoodle.socket";
 import WebsocketBlobResult from "../model/WebsocketBlobResult";
 import FrontendStatus from "../model/FrontendStatus";
 
-let backendUrl = new URL("http://tnoodle.hjk666.cn:8999");
+let backendUrl = new URL("http://localhost:2014");
 export const tNoodleBackend = backendUrl.toString().replace(/\/$/g, "");
 
 let zipEndpoint = "/wcif/zip";
