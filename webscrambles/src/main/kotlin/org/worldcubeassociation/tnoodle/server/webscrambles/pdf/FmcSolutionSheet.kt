@@ -48,11 +48,11 @@ class FmcSolutionSheet(
         val tableRows = directions.zip(moves)
 
         return table(numColumns) {
-            relativeWidths = listOf(5f, 1f, 1f, 1f, 1f, 1f, 1f)
+            relativeWidths = listOf(1f, 1f, 1f, 1f, 1f, 1f, 1f)
 
             row {
                 cell {
-                    horizontalAlignment = Alignment.Horizontal.RIGHT
+                    horizontalAlignment = Alignment.Horizontal.LEFT
 
                     text(title) {
                         fontWeight = Font.Weight.BOLD
@@ -65,13 +65,13 @@ class FmcSolutionSheet(
             for ((direction, line) in tableRows) {
                 row {
                     cell {
-                        horizontalAlignment = Alignment.Horizontal.RIGHT
+                        horizontalAlignment = Alignment.Horizontal.LEFT
 
                         text(direction)
                     }
                     for (move in line) {
                         cell {
-                            verticalAlignment = Alignment.Vertical.MIDDLE
+                            horizontalAlignment = Alignment.Horizontal.LEFT
 
                             text(move) {
                                 fontName = Font.MONO
@@ -182,7 +182,7 @@ class FmcSolutionSheet(
                     val attemptDesc = Translate("fmc.attempt", locale) + SHORT_FILL
 
                     val competitorDesc = Translate("fmc.competitor", locale) + LONG_FILL
-                    val wcaIdDesc = "WCA ID" + WCA_ID_FILL // TODO i18n
+                    val wcaIdDesc = "TC ID" + WCA_ID_FILL // TODO i18n
                     val registrantIdDesc = Translate("fmc.registrantId", locale) + SHORT_FILL
 
                     val competitorInfoLines = listOfNotNull(
@@ -359,7 +359,7 @@ class FmcSolutionSheet(
 
         const val SHORT_FILL = ": ____"
         const val LONG_FILL = ": __________________"
-        const val WCA_ID_FILL = ": __ __ __ __  __ __ __ __  __ __"
+        const val WCA_ID_FILL = ": __ __  __ __ __ __  __ __ __ __  __ __ __"
 
         const val NUMBER_OF_RULES = 6
 
