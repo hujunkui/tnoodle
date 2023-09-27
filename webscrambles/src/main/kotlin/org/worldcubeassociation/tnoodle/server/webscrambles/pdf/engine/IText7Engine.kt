@@ -13,7 +13,6 @@ import com.itextpdf.kernel.pdf.action.PdfAction
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas
 import com.itextpdf.kernel.pdf.extgstate.PdfExtGState
 import com.itextpdf.kernel.pdf.navigation.PdfExplicitDestination
-import com.itextpdf.kernel.pdf.xobject.PdfImageXObject
 import com.itextpdf.kernel.utils.PdfMerger
 import com.itextpdf.layout.Canvas
 import com.itextpdf.layout.borders.Border
@@ -30,6 +29,7 @@ import com.itextpdf.svg.converter.SvgConverter
 import org.worldcubeassociation.tnoodle.server.webscrambles.pdf.model.*
 import org.worldcubeassociation.tnoodle.server.webscrambles.pdf.model.properties.*
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.time.LocalDate
 import kotlin.math.atan
 
@@ -78,7 +78,7 @@ object IText7Engine {
             if (doc.watermark != null) {
                 val monoFont = PdfFontFactory.createFont("fonts/${Font.MONO}.ttf", PdfEncodings.IDENTITY_H, pdfDocument)
                 addedPage.addWatermark(doc.watermark, monoFont, n + 1)
-                addImageWatermarkToPage(addedPage,"hcucu.png")
+                addImageWatermarkToPage(addedPage,"/mfss.png")
             }
 
             val headerHeight = 3 * page.marginTop.toFloat() / 4
@@ -125,7 +125,12 @@ object IText7Engine {
     fun addImageWatermarkToPage(page: PdfPage, imagePath: String) {
         val pageSize = page.pageSize
         val canvas = PdfCanvas(page)
-        val image = Image(ImageDataFactory.create(imagePath))
+        val resourceAsStream = object {}.javaClass.getResourceAsStream(imagePath)
+        val outputStream = ByteArrayOutputStream()
+        resourceAsStream.use { input ->
+            input.copyTo(outputStream)
+        }
+        val image = Image(ImageDataFactory.create(outputStream.toByteArray()))
         image.setOpacity(0.5f)
         val rect = Rectangle(pageSize)
         val canvasWatermark = Canvas(canvas, rect)
