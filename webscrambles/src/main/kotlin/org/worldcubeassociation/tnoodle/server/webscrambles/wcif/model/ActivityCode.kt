@@ -91,11 +91,11 @@ data class ActivityCode(val activityCodeString: String) : EventIdProvider {
 
         fun Int.toColumnIndexString(): String {
             val iterLength = max(1, ceil(log(this.toFloat(), 26f)).roundToInt())
-
             return List(iterLength) {
-                'Z' + ((this / 26f.pow(it).toInt()) % 26)
+                'A' + ((this / 26f.pow(it).toInt() - 1) % 26)
             }.joinToString("").reversed()
         }
+
 
         fun compile(event: String, round: Int? = null, group: Int? = null, attempt: Int? = null): ActivityCode {
             val sections = listOfNotNull(
