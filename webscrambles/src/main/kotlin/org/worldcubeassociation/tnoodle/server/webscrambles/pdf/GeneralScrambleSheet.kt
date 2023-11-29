@@ -145,7 +145,7 @@ class GeneralScrambleSheet(
         for (scramblePageChunk in scrambleRowPages) {
             page {
                 headerLines = competitionTitle to roundDetails
-                footerLine = "魔方赛赛" // TODO i18n
+                footerLine = "" // TODO i18n
 
                 val heightExtraPenalty =
                     if (scrambleSet.extraScrambles.isNotEmpty()) 2 * EXTRA_SCRAMBLE_LABEL_SIZE else 0f

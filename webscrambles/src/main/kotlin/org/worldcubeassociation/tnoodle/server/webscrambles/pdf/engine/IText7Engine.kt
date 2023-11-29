@@ -78,7 +78,7 @@ object IText7Engine {
             if (doc.watermark != null) {
                 val monoFont = PdfFontFactory.createFont("fonts/${Font.MONO}.ttf", PdfEncodings.IDENTITY_H, pdfDocument)
                 addedPage.addWatermark(doc.watermark, monoFont, n + 1)
-                addImageWatermarkToPage(addedPage,"/mfss.png")
+//                addImageWatermarkToPage(addedPage,"/mfss.png")
             }
 
             val headerHeight = 3 * page.marginTop.toFloat() / 4

@@ -33,7 +33,7 @@ zh-CN:
         #original_hash: 1ba5f27
         rule5: 你的解法长度会根据OBTM进行计算。
         #original_hash: 42e1a95
-        rule6: 请遵守魔方赛赛规则。如不确定，请仅使用以下转动：
+        rule6: 只能使用WCA规则第12章所述的转动表示方法。如不确定，请仅使用以下转动：
         #original_hash: dd22ec2
         faceMoves: 单层转动
         #original_hash: 57e9da1
