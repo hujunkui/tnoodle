@@ -75,7 +75,7 @@ class WcifHandler(val environmentConfig: ServerEnvironmentConfig) : RouteHandler
             const val MAX_SCRAMBLE_SET_COPIES = 100
 
             // The WCA identifies groups with letters internally, so having more than 26 is unlikely.
-            const val MAX_SCRAMBLE_SET_COUNT = 26
+            const val MAX_SCRAMBLE_SET_COUNT = 100
 
             fun validateRequest(req: WcifScrambleRequest): Boolean {
                 val checkMultiCubes = req.multiCubes?.requestedScrambles ?: 0

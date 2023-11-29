@@ -29,7 +29,7 @@ object WcifDataHandler : RouteHandler {
                         .toSortedMap()
                         .toMap()
 
-                    call.respond(tagsWithNames)
+                    call.respond("{}")
                 }
             }
         }

@@ -112,9 +112,9 @@ const EventPicker = ({ wcaEvent, wcifEvent }: EventPickerProps) => {
         return (
             <tr className="thead-light">
                 <th scope="col">#</th>
-                <th scope="col">Format</th>
-                <th scope="col">Scramble Sets</th>
-                <th scope="col">Copies</th>
+                <th scope="col">赛制</th>
+                <th scope="col">组数</th>
+                <th scope="col">份数</th>
             </tr>
         );
     };
@@ -285,9 +285,6 @@ const EventPicker = ({ wcaEvent, wcifEvent }: EventPickerProps) => {
             {maybeShowTableBody(rounds)}
             {wcaEvent.is_multiple_blindfolded && rounds.length > 0 && (
                 <MbldDetail />
-            )}
-            {wcaEvent.is_fewest_moves && rounds.length > 0 && (
-                <FmcTranslationsDetail />
             )}
         </table>
     );

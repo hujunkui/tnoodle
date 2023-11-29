@@ -93,7 +93,7 @@ data class ActivityCode(val activityCodeString: String) : EventIdProvider {
             val iterLength = max(1, ceil(log(this.toFloat(), 26f)).roundToInt())
 
             return List(iterLength) {
-                '@' + ((this / 26f.pow(it).toInt()) % 26)
+                'Z' + ((this / 26f.pow(it).toInt()) % 26)
             }.joinToString("").reversed()
         }
 
