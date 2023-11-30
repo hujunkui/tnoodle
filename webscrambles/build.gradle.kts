@@ -24,6 +24,7 @@ buildscript {
 plugins {
     kotlin("jvm")
     application
+    `maven-publish`
     alias(libs.plugins.shadow)
     alias(libs.plugins.kotlin.serialization)
 }
@@ -52,7 +53,7 @@ dependencies {
 
     runtimeOnly(libs.bouncycastle)
 
-    "deployable"(project(":tnoodle-ui"))
+//    "deployable"(project(":tnoodle-ui"))
 
     testImplementation(libs.mockk)
 }
@@ -120,4 +121,25 @@ tasks.getByName<ShadowJar>("shadowJar") {
 tasks.getByName<JavaExec>("run") {
     args = listOf("--nobrowser")
     jvmArgs = listOf("-Dio.ktor.development=true")
+}
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            group = project.group
+            artifactId = project.name
+            version = project.version.toString()
+            from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            credentials {
+                username = System.getenv("NEXUS_USERNAME")
+                password = System.getenv("NEXUS_PASSWORD")
+            }
+        }
+    }
 }

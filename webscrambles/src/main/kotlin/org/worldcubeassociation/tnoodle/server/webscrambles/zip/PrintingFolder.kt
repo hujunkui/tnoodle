@@ -25,7 +25,18 @@ data class PrintingFolder(
     val scrambleSheetsFlat = uniqueTitles.values.toList()
     val competitionName get() = competition.shortName
     val wcifSchedule get() = competition.schedule
+    fun generatePdf(): ByteArray {
+        val wcifRounds = competition.events.flatMap { it.rounds }
+        val scrambleSheetsWithCopies = scrambleSheetsFlat.flatMap { sheet ->
+            val sheetRound = wcifRounds.first { it.idCode.isParentOf(sheet.activityCode) }
 
+            val copyCountExtension = sheetRound.findExtension<SheetCopyCountExtension>()
+            val numCopies = copyCountExtension?.numCopies ?: 1
+
+            Document.clone(sheet.document, numCopies)
+        }
+        return WCIFDataBuilder.compileOutlinePdfBytes(scrambleSheetsWithCopies, null)
+    }
     fun assemble(pdfPassword: String?): Folder {
         val fmcRequests = uniqueTitles.filterValues { it is FewestMovesSheet }
 

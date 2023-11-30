@@ -18,6 +18,8 @@ import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.WCIFDataBuilder
 import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.WCIFScrambleMatcher
 import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.model.Competition
 import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.model.extension.SheetCopyCountExtension
+import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDateTime
 
 class WcifHandler(val environmentConfig: ServerEnvironmentConfig) : RouteHandler {
@@ -76,7 +78,6 @@ class WcifHandler(val environmentConfig: ServerEnvironmentConfig) : RouteHandler
 
             // The WCA identifies groups with letters internally, so having more than 26 is unlikely.
             const val MAX_SCRAMBLE_SET_COUNT = 100
-
             fun validateRequest(req: WcifScrambleRequest): Boolean {
                 val checkMultiCubes = req.multiCubes?.requestedScrambles ?: 0
 
@@ -135,14 +136,21 @@ class WcifHandler(val environmentConfig: ServerEnvironmentConfig) : RouteHandler
                     // TODO GB allow building ZIPs in languages other than English?
                     val zip = WCIFDataBuilder.wcifToZip(wcif, pdfPassword, versionTag, Translate.DEFAULT_LOCALE, fmcTranslations, generationDate, generationUrl)
                     val bytes = zip.compress(zipPassword)
-
+                    writeByteArrayToFile(bytes, "D://test//test.zip")
                     backend.onProgress(WORKER_PDF)
                     ContentType.Application.Zip to bytes
                 }
 
                 registerJobPaths(job)
             }
+
         }
+    }
+
+    private fun writeByteArrayToFile(byteArray: ByteArray, filePath: String) {
+        val fileOutputStream = FileOutputStream(filePath)
+        fileOutputStream.write(byteArray)
+        fileOutputStream.close()
     }
 
     companion object {

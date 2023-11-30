@@ -1,10 +1,14 @@
 package org.worldcubeassociation.tnoodle.server.webscrambles.zip
 
 import org.worldcubeassociation.tnoodle.server.webscrambles.pdf.ScrambleSheet
+import org.worldcubeassociation.tnoodle.server.webscrambles.pdf.model.Document
+import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.WCIFDataBuilder
 import org.worldcubeassociation.tnoodle.server.webscrambles.zip.util.StringUtil.toFileSafeString
 import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.model.Competition
+import org.worldcubeassociation.tnoodle.server.webscrambles.wcif.model.extension.SheetCopyCountExtension
 import org.worldcubeassociation.tnoodle.server.webscrambles.zip.model.ZipArchive
 import org.worldcubeassociation.tnoodle.server.webscrambles.zip.model.dsl.zipArchive
+import java.io.FileOutputStream
 import java.time.LocalDateTime
 import java.util.Locale
 
@@ -25,7 +29,7 @@ data class ScrambleZip(
 
         val printingFolder = PrintingFolder(wcif, namedSheets, fmcTranslations, watermark)
         val printingFolderNode = printingFolder.assemble(pdfPassword)
-
+//        TNoodleUtil.generatePdf(wcif, namedSheets, "D:\\test\\demo.pdf")
         val passcodeList = computerDisplayZip.passcodes.entries
             .joinToString("\r\n") { "${it.key}: ${it.value}" }
 

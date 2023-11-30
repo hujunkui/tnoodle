@@ -47,3 +47,5 @@ tasks.withType<ProcessResources> {
     mustRunAfter(":registerReleaseTag")
     finalizedBy("deleteSignatures")
 }
+
+
