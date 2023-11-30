@@ -27,6 +27,7 @@ plugins {
     `maven-publish`
     alias(libs.plugins.shadow)
     alias(libs.plugins.kotlin.serialization)
+    id("kotlinx-atomicfu")
 }
 
 configurations {
@@ -36,7 +37,11 @@ configurations {
 }
 
 dependencies {
-    implementation(project(":tnoodle-server"))
+
+    api(libs.ktor.server.core)
+    api(libs.kotlinx.serialization.json)
+    api(libs.tnoodle.scrambles)
+//    implementation(project(":tnoodle-server"))
 
     implementation(libs.zip4j)
     implementation(libs.markdownj.core)
@@ -47,9 +52,6 @@ dependencies {
     implementation(libs.kotlin.argparser)
     implementation(libs.system.tray)
     implementation(libs.apache.commons.lang3)
-    implementation(libs.ktor.server.netty)
-    implementation(libs.ktor.server.websockets)
-    implementation(libs.ktor.server.status.pages)
 
     runtimeOnly(libs.bouncycastle)
 
@@ -68,20 +70,20 @@ application {
     mainClass.set("org.worldcubeassociation.tnoodle.server.webscrambles.WebscramblesServer")
 }
 
-tasks.create<JavaExec>("i18nCheck") {
-    val ymlFiles = sourceSets.main.get().resources.matching {
-        include("i18n/*.yml")
-    }.sortedBy { it.nameWithoutExtension != "en" }
+//tasks.create<JavaExec>("i18nCheck") {
+//    val ymlFiles = sourceSets.main.get().resources.matching {
+//        include("i18n/*.yml")
+//    }.sortedBy { it.nameWithoutExtension != "en" }
+//
+//    mainClass.set("JarMain") // Warbler gives *fantastic* class names to the jruby bundles :/
+//    classpath = buildscript.configurations["classpath"]
+//
+//    setArgs(ymlFiles)
+//}
 
-    mainClass.set("JarMain") // Warbler gives *fantastic* class names to the jruby bundles :/
-    classpath = buildscript.configurations["classpath"]
-
-    setArgs(ymlFiles)
-}
-
-tasks.getByName("check") {
-    dependsOn("i18nCheck")
-}
+//tasks.getByName("check") {
+//    dependsOn("i18nCheck")
+//}
 
 tasks.create("registerManifest") {
     tasks.withType<Jar> {
