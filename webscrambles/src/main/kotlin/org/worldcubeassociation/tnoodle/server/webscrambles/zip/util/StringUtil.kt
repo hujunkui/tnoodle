@@ -48,20 +48,5 @@ object StringUtil {
             acc + (safeTitle to req)
         }
     }
-    fun generatePdf(competition: Competition, uniqueTitles: Map<String, ScrambleSheet>, filePath: String) {
-        val scrambleSheetsFlat = uniqueTitles.values.toList()
-        val wcifRounds = competition.events.flatMap { it.rounds }
-        val scrambleSheetsWithCopies = scrambleSheetsFlat.flatMap { sheet ->
-            val sheetRound = wcifRounds.first { it.idCode.isParentOf(sheet.activityCode) }
 
-            val copyCountExtension = sheetRound.findExtension<SheetCopyCountExtension>()
-            val numCopies = copyCountExtension?.numCopies ?: 1
-
-            Document.clone(sheet.document, numCopies)
-        }
-        var compileOutlinePdfBytes = WCIFDataBuilder.compileOutlinePdfBytes(scrambleSheetsWithCopies, null)
-        val fileOutputStream = FileOutputStream(filePath)
-        fileOutputStream.write(compileOutlinePdfBytes)
-        fileOutputStream.close()
-    }
 }
